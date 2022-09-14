@@ -4,17 +4,14 @@ import globalRouter from "./routers/globalRouter";
 import videoRouter from "./routers/videoRouter";
 import userRouter from "./routers/userRouter";
 
-// 포트번호
 const PORT = 4000;
-
-// 호출
 const app = express();
 const logger = morgan("dev");
 
-// middlewere
+app.set("view engine", "pug");
 app.use(logger);
 
-// use router
+// router
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
@@ -25,5 +22,3 @@ const handleListenging = () => {
 };
 
 app.listen(PORT, handleListenging);
-
-// #4.8 부터

@@ -1,5 +1,5 @@
 export const trending = (req, res) => {
-  res.send("trending");
+  res.render("home");
 };
 export const see = (req, res) => {
   console.log(req.params);
