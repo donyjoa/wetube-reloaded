@@ -13,7 +13,7 @@ const handelOpen = () => {
 };
 
 const handleError = (error) => {
-  console.log("👎 db error");
+  console.log("👎 db error", error);
 };
 
 // event

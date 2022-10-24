@@ -1,18 +1,31 @@
 import Video from "../models/Video";
 
+/* callback
 export const home = (req, res) => {
-  Video.find();
-  return res.render("home", { pageTitle: "Home" });
+  Video.find({}, (error, videos) => {
+    console.log("search");
+    return res.render("home", { pageTitle: "Home", videos });
+  });
+};
+*/
+
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({});
+    return res.render("home", { pageTitle: "Home", videos });
+  } catch (error) {
+    return res.render("server-error");
+  }
 };
 
 export const watch = (req, res) => {
   const { id } = req.params;
-  return res.render("watch", { pageTitle: `Watching: ${video.title}` });
+  return res.render("watch", { pageTitle: `Watching:` });
 };
 
 export const getEdit = (req, res) => {
   const { id } = req.params;
-  return res.render("edit", { pageTitle: `Editing: ${video.title}` });
+  return res.render("edit", { pageTitle: `Editing:` });
 };
 
 export const postEdit = (req, res) => {
