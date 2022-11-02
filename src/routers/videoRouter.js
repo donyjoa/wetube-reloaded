@@ -18,6 +18,9 @@ videoRouter.get("/:id([0-9a-f]{24})", watch);
 // edit
 videoRouter.route("/:id([0-9a-f]{24})/edit").get(getEdit).post(postEdit);
 
+// delete
+videoRouter.route("/:id([0-9a-f]{24})/delete").get(deleteVideo);
+
 // upload
 videoRouter.route("/upload").get(getUpload).post(postUpload);
 
