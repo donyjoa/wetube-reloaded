@@ -13,7 +13,7 @@ export const home = (req, res) => {
 // home
 //
 export const home = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
   return res.render("home", { pageTitle: "Home", videos });
 };
 //
@@ -104,4 +104,18 @@ export const deleteVideo = async (req, res) => {
 };
 //
 // delete end
+//
+
+//
+// search start
+//
+export const search = (req, res) => {
+  const { keyword } = req.query;
+  if (keyword) {
+    // search
+  }
+  return res.render("search", { pageTitle: "Search" });
+};
+//
+// search end
 //
