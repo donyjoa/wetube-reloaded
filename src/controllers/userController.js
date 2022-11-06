@@ -1,6 +1,14 @@
-export const join = (req, res) => {
-  res.send("join");
+// 계정생성
+export const getJoin = (req, res) => {
+  res.render("join", { pageTitle: "Join" });
 };
+export const postJoin = (req, res) => {
+  {
+    console.log(req.body);
+    res.end();
+  }
+};
+
 export const edit = (req, res) => {
   res.send("edit user");
 };
