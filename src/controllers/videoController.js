@@ -109,12 +109,19 @@ export const deleteVideo = async (req, res) => {
 //
 // search start
 //
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const { keyword } = req.query;
+  let videos = [];
   if (keyword) {
-    // search
+    // const를 붙이면 if외부에서 사용할수없다.
+    videos = await Video.find({
+      title: {
+        $regex: new RegExp(`^${keyword}`, "i"),
+      },
+    });
+    // return res.render("search", { pageTitle: "Search", videos });
   }
-  return res.render("search", { pageTitle: "Search" });
+  return res.render("search", { pageTitle: "Search", videos });
 };
 //
 // search end
