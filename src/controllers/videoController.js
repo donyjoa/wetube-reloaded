@@ -66,7 +66,6 @@ export const postEdit = async (req, res) => {
 // edit end
 //
 
-//
 // upload start
 //
 export const getUpload = (req, res) => {
@@ -92,9 +91,7 @@ export const postUpload = async (req, res) => {
 };
 //
 // upload end
-//
 
-//
 // delete start
 //
 export const deleteVideo = async (req, res) => {
@@ -104,9 +101,7 @@ export const deleteVideo = async (req, res) => {
 };
 //
 // delete end
-//
 
-//
 // search start
 //
 export const search = async (req, res) => {
@@ -121,8 +116,7 @@ export const search = async (req, res) => {
     });
     // return res.render("search", { pageTitle: "Search", videos });
   }
-  return res.render("search", { pageTitle: "Search", videos });
+  return res.render("search", { pageTitle: "검색", videos });
 };
 //
 // search end
-//

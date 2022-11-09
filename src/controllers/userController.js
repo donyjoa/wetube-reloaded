@@ -1,14 +1,15 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 
-// 계정생성
+// join start
+//
 export const getJoin = (req, res) => {
-  res.render("join", { pageTitle: "Join" });
+  res.render("join", { pageTitle: "회원가입" });
 };
 export const postJoin = async (req, res) => {
   {
     const { name, username, email, password, password2, location } = req.body;
-    const pageTitle = "Join";
+    const pageTitle = "회원가입";
     if (password !== password2) {
       return res.render("join", {
         pageTitle,
@@ -41,6 +42,8 @@ export const postJoin = async (req, res) => {
     }
   }
 };
+//
+// join end
 
 export const edit = (req, res) => {
   res.send("edit user");
@@ -49,7 +52,8 @@ export const remove = (req, res) => {
   res.send("remove user");
 };
 
-// 로그인
+// login start
+//
 export const getLogin = (req, res) => {
   res.render("login", { pageTitle: "로그인" });
 };
@@ -75,6 +79,7 @@ export const postLogin = async (req, res) => {
   res.redirect("/");
 };
 //
+// login end
 
 export const logout = (req, res) => {
   res.send("logout");
