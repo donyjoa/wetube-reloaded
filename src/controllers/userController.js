@@ -1,5 +1,6 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import session from "express-session";
 
 // join start
 //
@@ -75,7 +76,8 @@ export const postLogin = async (req, res) => {
       errorMessage: "password가 틀렸습니다.",
     });
   }
-  console.log("로그인 완료");
+  req.session.loggedIn = true;
+  req.session.user = user;
   res.redirect("/");
 };
 //

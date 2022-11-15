@@ -5,7 +5,7 @@ html(lang="en")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.11/mvp.css")
-    title #{pageTitle} | Wetube
+    title #{pageTitle} | #{siteName}
   body 
     header 
       h1=pageTitle
@@ -13,10 +13,16 @@ html(lang="en")
         ul
           li  
             a(href="/") Home
-          li  
-            a(href="/join") Join
-          li  
-            a(href="/login") Login
+          if loggedIn
+            li
+              a(href="/logout") Log Out
+            li 
+              a(href="/my-profile") #{loggedInUser.name}의 정보
+          else
+            li  
+              a(href="/join") Join
+            li  
+              a(href="/login") Login
           li  
             a(href="/search") Search
           li  
