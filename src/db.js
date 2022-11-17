@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://127.0.0.1:27017/wetube", {
+mongoose.connect(process.env.DB_URL, {
   // 아래 조건은 없어도 에러가 발생하지 않음
   // useNewUrlParser: true,
   // useUnifiedTopology: true,
