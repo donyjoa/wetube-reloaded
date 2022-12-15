@@ -83,6 +83,22 @@ export const postLogin = async (req, res) => {
 //
 // login end
 
+// 깃허브 로그인
+export const startGithubLogin = (req, res) => {
+  const baseUrl = "https://github.com/login/oauth/authorize";
+  const config = {
+    client_id: "3923e2b1c3b64f88913c",
+    allow_signup: false,
+    scope: "read:user user:email",
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  return res.redirect(finalUrl);
+};
+
+// 깃허브 로그인 완료시
+export const finishGithubLogin = (req, res) => {};
+
 export const logout = (req, res) => {
   res.send("logout");
 };

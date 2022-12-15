@@ -3,6 +3,6 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "Wetube";
   res.locals.loggedInUser = req.session.user;
   // console.log("req", req.session.user);
-  console.log("res", res.locals);
+  // console.log("res", res.locals);
   next();
 };
