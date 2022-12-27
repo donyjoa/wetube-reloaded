@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 import session from "express-session";
 import { response } from "express";
+import { reset } from "nodemon";
 
 // 회원가입
 export const getJoin = (req, res) => {
@@ -134,13 +135,30 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    const email = emailData.find(
+    const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
     );
-    if (!email) {
+    if (!emailObj) {
       return res.redirect("/login");
     }
-    /////
+    const existingUser = await User.findOne({ email: emailObj.email });
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      const user = await User.create({
+        name: userData.name,
+        username: userData.login,
+        email: emailObj.email,
+        password: "",
+        socialOnly: true,
+        location: userData.location,
+      });
+      req.session.loggedIn = true;
+      req.session.user = user;
+      return res.redirect("/");
+    }
   } else {
     return res.redirect("/login");
   }
