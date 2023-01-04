@@ -51,11 +51,9 @@ export const postJoin = async (req, res) => {
 export const edit = (req, res) => {
   res.send("edit user");
 };
-export const remove = (req, res) => {
-  res.send("remove user");
-};
 
-// login start
+//
+// 일반로그인
 //
 export const getLogin = (req, res) => {
   res.render("login", { pageTitle: "로그인" });
@@ -63,14 +61,15 @@ export const getLogin = (req, res) => {
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const pageTitle = "로그인";
-  const user = await User.findOne({ username });
-  // 유저가 존재하지 않음
+  const user = await User.findOne({ username, socialOnly: false });
+  // 유저가 존재하지 않을 때
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
       errorMessage: "입력한 username을 가진 User가 존재하지 않습니다.",
     });
   }
+  // 비밀번호 암호화
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
     return res.status(400).render("login", {
@@ -82,10 +81,10 @@ export const postLogin = async (req, res) => {
   req.session.user = user;
   res.redirect("/");
 };
-//
-// login end
 
+//
 // 깃허브 로그인
+//
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";
   const config = {
@@ -141,20 +140,22 @@ export const finishGithubLogin = async (req, res) => {
     if (!emailObj) {
       return res.redirect("/login");
     }
-    const existingUser = await User.findOne({ email: emailObj.email });
-    if (existingUser) {
-      req.session.loggedIn = true;
-      req.session.user = existingUser;
-      return res.redirect("/");
-    } else {
+    // 데이터베이스에 같은 이메일이 있는지 찾기
+    let user = await User.findOne({ email: emailObj.email });
+    if (!user) {
+      // 데이터베이스에 없으면 새 유저 생성
       const user = await User.create({
+        avatarUrl: userData.avatar_url,
         name: userData.name,
         username: userData.login,
         email: emailObj.email,
         password: "",
+        // socialOnly로 비밀번호 없이 소셜 로그인으로만 가능
         socialOnly: true,
         location: userData.location,
       });
+    } else {
+      // 데이터베이스에 있으면 로그인실행
       req.session.loggedIn = true;
       req.session.user = user;
       return res.redirect("/");
@@ -165,7 +166,8 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.send("logout");
+  req.session.destroy();
+  return res.redirect("/");
 };
 export const see = (req, res) => {
   res.send("see");
