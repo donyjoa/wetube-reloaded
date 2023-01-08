@@ -9,6 +9,7 @@ import { reset } from "nodemon";
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "회원가입" });
 };
+
 export const postJoin = async (req, res) => {
   {
     const { name, username, email, password, password2, location } = req.body;
@@ -52,12 +53,13 @@ export const edit = (req, res) => {
   res.send("edit user");
 };
 
-//
+////////////
 // 일반로그인
-//
+////////////
 export const getLogin = (req, res) => {
   res.render("login", { pageTitle: "로그인" });
 };
+
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const pageTitle = "로그인";
@@ -82,9 +84,9 @@ export const postLogin = async (req, res) => {
   res.redirect("/");
 };
 
-//
+//////////////////
 // 깃허브 로그인
-//
+//////////////////
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";
   const config = {
@@ -97,7 +99,9 @@ export const startGithubLogin = (req, res) => {
   return res.redirect(finalUrl);
 };
 
+//////////////////////
 // 깃허브 로그인 완료시
+//////////////////////
 export const finishGithubLogin = async (req, res) => {
   const baseUrl = "https://github.com/login/oauth/access_token";
   const config = {
@@ -126,7 +130,7 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userData);
+    // console.log(userData);
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -138,6 +142,7 @@ export const finishGithubLogin = async (req, res) => {
       (email) => email.primary === true && email.verified === true
     );
     if (!emailObj) {
+      // 깃허브로 로그인했다는 알람 만들것
       return res.redirect("/login");
     }
     // 데이터베이스에 같은 이메일이 있는지 찾기
@@ -165,10 +170,14 @@ export const finishGithubLogin = async (req, res) => {
   }
 };
 
+////////////////
+// 로그아웃
+////////////////
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
+
 export const see = (req, res) => {
   res.send("see");
 };
