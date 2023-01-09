@@ -49,10 +49,6 @@ export const postJoin = async (req, res) => {
 //
 // join end
 
-export const edit = (req, res) => {
-  res.send("edit user");
-};
-
 ////////////
 // 일반로그인
 ////////////
@@ -178,6 +174,20 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
+//////////////
+// 프로필수정
+//////////////
+export const getEdit = (req, res) => {
+  return res.render("edit-profile", {
+    pageTitle: "Edit Profile",
+  });
+};
+
+export const postEdit = (req, res) => {
+  return res.render("edit-profile");
+};
+
+///////////////////
 export const see = (req, res) => {
   res.send("see");
 };
