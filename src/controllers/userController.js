@@ -183,7 +183,20 @@ export const getEdit = (req, res) => {
   });
 };
 
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username, location },
+  } = req;
+  // const { name, email, username, location } = req.body;
+  await User.findByIdAndUpdate(_id, {
+    name,
+    email,
+    username,
+    location,
+  });
   return res.render("edit-profile");
 };
 
