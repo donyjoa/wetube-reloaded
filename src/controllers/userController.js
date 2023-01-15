@@ -191,13 +191,28 @@ export const postEdit = async (req, res) => {
     body: { name, email, username, location },
   } = req;
   // const { name, email, username, location } = req.body;
-  await User.findByIdAndUpdate(_id, {
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  /* 아래 방법도 있다.
+  req.session.user = {
+    // session안의 내용을 밖으로 꺼내줌
+    ...req.session.user,
     name,
     email,
     username,
     location,
-  });
-  return res.render("edit-profile");
+  };
+  */
+  req.session.user = updateUser;
+  return res.redirect("/users/edit");
 };
 
 ///////////////////
